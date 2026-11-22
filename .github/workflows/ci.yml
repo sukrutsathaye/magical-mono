@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      # Your existing steps which check out the repo, start-workers, install
+      # dependencies, etc.
+      # These are just illustrative examples...
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: nrwl/nx-set-shas@v4
+      - uses: ./.github/actions/setup-pnpm
+      - uses: ./.github/actions/setup-flutter
+      - run: pnpm nx-cloud start-workers
+
+      - run: pnpm nx affected -t lint test build
+
+      # NEW: Add this step at the end of your job
+      - run: pnpm nx fix-ci
+        if: always() # IMPORTANT: Always run

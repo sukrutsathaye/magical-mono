@@ -1,0 +1,5 @@
+{
+  "name": "mono-magic",
+  "description": "Polyglot Atomic Design UI libraries and Storybook component showcases (react-mui, ng-mat, rn-paper).",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,25 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../../..",
+    "outDir": "../out-tsc/storybook",
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": [
+    "../**/*.spec.ts",
+    "../**/*.test.ts"
+  ],
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.stories.ts",
+    "*.ts",
+    "*.json"
+  ]
+}

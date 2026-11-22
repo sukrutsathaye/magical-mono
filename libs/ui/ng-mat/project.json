@@ -1,0 +1,71 @@
+{
+  "name": "ng-mat",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui/ng-mat/src",
+  "prefix": "magic",
+  "projectType": "library",
+  "tags": ["scope:ui", "framework:angular", "ds:material"],
+  "targets": {
+    "storybook": {
+      "executor": "nx:run-commands",
+      "continuous": true,
+      "options": {
+        "cwd": "libs/ui/ng-mat",
+        "command": "storybook dev -c .storybook -p 4400"
+      },
+      "configurations": {
+        "ci": {
+          "command": "storybook dev -c .storybook -p 4400 --quiet"
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "nx:run-commands",
+      "outputs": [
+        "{projectRoot}/storybook-static"
+      ],
+      "options": {
+        "cwd": "libs/ui/ng-mat",
+        "command": "storybook build -c .storybook -o storybook-static"
+      },
+      "configurations": {
+        "ci": {
+          "command": "storybook build -c .storybook -o storybook-static --quiet"
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nx/web:file-server",
+      "dependsOn": [
+        "build-storybook"
+      ],
+      "readyWhen": {
+        "signal": true
+      },
+      "options": {
+        "buildTarget": "ng-mat:build-storybook",
+        "staticFilePath": "libs/ui/ng-mat/storybook-static",
+        "spa": true
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "ng-mat:build-storybook:ci"
+        }
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/ui/ng-mat",
+        "command": "vitest run --project=ng-mat"
+      }
+    },
+    "test-storybook": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "libs/ui/ng-mat",
+        "command": "vitest run --project=ng-mat-storybook"
+      }
+    }
+  }
+}
